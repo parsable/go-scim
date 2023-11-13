@@ -162,20 +162,21 @@ func (e ResourceNotFoundError) Error() string {
 }
 
 func (f *errorFactory) Duplicate(path string, value interface{}) error {
-	return &DuplicateError{path, value}
+	return DuplicateError{Path: path, Value: value}
 }
 
 // Duplicate Error
 type DuplicateError struct {
 	Path  string
 	Value interface{}
+	error
 }
 
 func (e DuplicateError) Error() string {
 	return fmt.Sprintf("Resource has duplicate value '%v' at path '%s'", e.Value, e.Path)
 }
 
-type UnauthorizedError struct {}
+type UnauthorizedError struct{}
 
 func (e UnauthorizedError) Error() string {
 	return fmt.Sprintf("Unauthorized")

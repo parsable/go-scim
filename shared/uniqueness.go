@@ -10,9 +10,16 @@ import (
 func ValidateUniqueness(subj *Resource, sch *Schema, repo Repository, ctx context.Context) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
+			//var hello InvalidPathError
 			switch r.(type) {
 			case error:
-				err = r.(error)
+				errData, _ := r.(DuplicateError)
+				fmt.Printf("veamos: %s", errData.Path)
+				if err != nil {
+					fmt.Printf("hey du: %v", errData)
+					err = errData
+				}
+				err = errData
 			default:
 				err = Error.Text("%v", r)
 			}
