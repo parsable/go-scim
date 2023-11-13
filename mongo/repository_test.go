@@ -1,15 +1,17 @@
 package mongo
 
 import (
+	"context"
 	"fmt"
+	"log"
+	"os"
+	"testing"
+
 	. "github.com/parsable/go-scim/shared"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/ory-am/dockertest.v3"
-	"log"
-	"os"
-	"testing"
 )
 
 var (
@@ -47,6 +49,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestRepository_Create(t *testing.T) {
+	ctx := context.Background()
 	defer cleanUp()
 
 	sch, _, err := ParseSchema("../resources/tests/user_schema.json")
@@ -64,6 +67,7 @@ func TestRepository_Create(t *testing.T) {
 }
 
 func TestRepository_Get(t *testing.T) {
+	ctx := context.Background()
 	defer cleanUp()
 
 	sch, _, err := ParseSchema("../resources/tests/user_schema.json")
@@ -124,6 +128,7 @@ func TestRepository_Get(t *testing.T) {
 }
 
 func TestRepository_Count(t *testing.T) {
+	ctx := context.Background()
 	defer cleanUp()
 
 	sch, _, err := ParseSchema("../resources/tests/user_schema.json")
@@ -145,6 +150,7 @@ func TestRepository_Count(t *testing.T) {
 }
 
 func TestRepository_Update(t *testing.T) {
+	ctx := context.Background()
 	defer cleanUp()
 
 	sch, _, err := ParseSchema("../resources/tests/user_schema.json")
@@ -168,6 +174,7 @@ func TestRepository_Update(t *testing.T) {
 }
 
 func TestRepository_Delete(t *testing.T) {
+	ctx := context.Background()
 	defer cleanUp()
 
 	sch, _, err := ParseSchema("../resources/tests/user_schema.json")
@@ -191,6 +198,7 @@ func TestRepository_Delete(t *testing.T) {
 }
 
 func TestRepository_Search(t *testing.T) {
+	ctx := context.Background()
 	defer cleanUp()
 
 	sch, _, err := ParseSchema("../resources/tests/user_schema.json")

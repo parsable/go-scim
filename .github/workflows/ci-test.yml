@@ -1,0 +1,31 @@
+# Run on branch builds
+name: CI-Go-Tests
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - main
+
+jobs:
+  go-test:
+    name: go test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Update Packages
+      run: sudo apt-get update
+    - name: Install Docker
+      run: |
+        sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    - name: Go Test
+      run: go test -v -race ./...
