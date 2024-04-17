@@ -162,7 +162,7 @@ func (e ResourceNotFoundError) Error() string {
 }
 
 func (f *errorFactory) Duplicate(path string, value interface{}) error {
-	return DuplicateError{Path: path, Value: value}
+	return &DuplicateError{Path: path, Value: value}
 }
 
 // Duplicate Error
