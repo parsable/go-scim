@@ -219,14 +219,14 @@ func (ps *patchState) applyPatchAdd(p Path, v reflect.Value, subj *Resource) {
 						if origVal.Kind() == reflect.Interface {
 							origVal = origVal.Elem()
 						}
-						var newArr MultiValued
+						newArr := MultiValued(origVal.Interface().([]interface{}))
 						switch v.Kind() {
 						case reflect.Array, reflect.Slice:
 							for i := 0; i < v.Len(); i++ {
-								newArr = MultiValued(origVal.Interface().([]interface{})).Add(v.Index(i).Interface())
+								newArr = newArr.Add(v.Index(i).Interface())
 							}
 						default:
-							newArr = MultiValued(origVal.Interface().([]interface{})).Add(v.Interface())
+							newArr = newArr.Add(v.Interface())
 						}
 						baseVal.SetMapIndex(keyVal, reflect.ValueOf(newArr))
 					}
