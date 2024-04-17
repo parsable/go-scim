@@ -43,6 +43,27 @@ func TestApplyPatch(t *testing.T) {
 		},
 		{
 			// add: multiValued
+			Patch{
+				Op:   Add,
+				Path: "emails",
+				Value: []map[string]interface{}{
+					{"value": "foo@bar.com"},
+					{"value": "bar@foo.com"},
+				},
+			},
+			func(r *Resource, err error) {
+				assert.Nil(t, err)
+				emailsVal := reflect.ValueOf(r.GetData()["emails"])
+				if emailsVal.Kind() == reflect.Interface {
+					emailsVal = emailsVal.Elem()
+				}
+				assert.Equal(t, 4, emailsVal.Len())
+				assert.True(t, reflect.DeepEqual(emailsVal.Index(2).Interface(), map[string]interface{}{"value": "foo@bar.com"}))
+				assert.True(t, reflect.DeepEqual(emailsVal.Index(3).Interface(), map[string]interface{}{"value": "bar@foo.com"}))
+			},
+		},
+		{
+			// add: multiValued
 			Patch{Op: Add, Path: "emails", Value: map[string]interface{}{"value": "foo@bar.com"}},
 			func(r *Resource, err error) {
 				assert.Nil(t, err)
