@@ -211,7 +211,7 @@ func GetGroupByIdHandler(r shared.WebRequest, server ScimServer, ctx context.Con
 	id, version := ParseIdAndVersion(r)
 
 	if len(version) > 0 {
-		count, err := server.Repository(shared.GroupResourceType).Count(fmt.Sprintf("id eq \"%s\" and meta.version eq \"%s\"", id, version), ctx, )
+		count, err := server.Repository(shared.GroupResourceType).Count(fmt.Sprintf("id eq \"%s\" and meta.version eq \"%s\"", id, version), ctx)
 		if err == nil && count > 0 {
 			ri.Status(http.StatusNotModified)
 			return

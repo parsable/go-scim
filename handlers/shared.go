@@ -323,6 +323,9 @@ func (ri *ResponseInfo) GetStatus() int {
 }
 
 func (ri *ResponseInfo) GetHeader(name string) string {
+	if ri.headers == nil {
+		ri.headers = map[string]string{}
+	}
 	return ri.headers[name]
 }
 
@@ -336,21 +339,33 @@ func (ri *ResponseInfo) Status(statusCode int) *ResponseInfo {
 }
 
 func (ri *ResponseInfo) ScimJsonHeader() *ResponseInfo {
+	if ri.headers == nil {
+		ri.headers = map[string]string{}
+	}
 	ri.headers["Content-Type"] = "application/scim+json"
 	return ri
 }
 
 func (ri *ResponseInfo) LocationHeader(location string) *ResponseInfo {
+	if ri.headers == nil {
+		ri.headers = map[string]string{}
+	}
 	ri.headers["Location"] = location
 	return ri
 }
 
 func (ri *ResponseInfo) ETagHeader(version string) *ResponseInfo {
+	if ri.headers == nil {
+		ri.headers = map[string]string{}
+	}
 	ri.headers["ETag"] = version
 	return ri
 }
 
 func (ri *ResponseInfo) Header(k, v string) *ResponseInfo {
+	if ri.headers == nil {
+		ri.headers = map[string]string{}
+	}
 	ri.headers[k] = v
 	return ri
 }
